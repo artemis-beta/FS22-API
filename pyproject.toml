@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "farmsim22-api"
+version = "0.1.0"
+description = ""
+authors = ["Kristian Zarębski <krizar312@gmail.com>"]
+readme = "README.md"
+packages = [{include = "farmsim22_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+defusedxml = "^0.7.1"
+click = "^8.1.6"
+loguru = "^0.7.0"
+pydantic = "^2.0.3"
+
+[tool.poetry.scripts]
+farmsim = "farmsim22_api.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
