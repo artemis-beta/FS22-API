@@ -127,6 +127,11 @@ def get_farms(save_game: str) -> typing.Dict[int, Farm]:
     ----------
     save_game : str
         directory containing all save game information files
+    
+    Returns
+    -------
+    Dict[int, Farm]
+        dictionary with classes containing information regarding status of each farm
     """
     _farms_file: str = os.path.join(save_game, "farms.xml")
 

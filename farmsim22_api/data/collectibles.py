@@ -1,17 +1,20 @@
-import pydantic
 import typing
 import os.path
 import defusedxml.ElementTree
 
 
-
-def get_collectibles(save_game: str):
+def get_collectibles(save_game: str) -> typing.Dict[int, bool]:
     """Retrieves information on the collectibles status in the loaded map of the given save file
 
     Parameters
     ----------
     save_game : str
         directory containing all save game information files
+    
+    Returns
+    -------
+    Dict[int, bool]
+        dictionary containing collectibles by ID and whether they have been found
     """
     _collectibles_file: str = os.path.join(save_game, "collectibles.xml")
 

@@ -3,6 +3,7 @@ from .economy import get_economy, Economy
 from .farm import get_farms, Farm
 from .fields import get_fields, Field
 from .fields import get_farmlands, Farmland
+from .meta import Metadata, get_career_data
 
 import pydantic
 import typing
@@ -14,6 +15,7 @@ class Data(pydantic.BaseModel):
     fields: typing.Dict[int, Field]
     farmlands: typing.Dict[int, Farmland]
     collectibles: typing.Dict[int, bool]
+    metadata: Metadata
 
 
 def get_data(save_game: str):
@@ -30,4 +32,5 @@ def get_data(save_game: str):
         fields=get_fields(save_game),
         farmlands=get_farmlands(save_game),
         collectibles=get_collectibles(save_game),
+        metadata=get_career_data(save_game)
     )
