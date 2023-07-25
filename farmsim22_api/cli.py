@@ -1,15 +1,15 @@
 import click
-import typing
+import json
 import os.path
 import glob
-import re
 
 import farmsim22_api.data
 
 @click.command("farmsim")
 @click.argument("save_dir", type=click.Path(exists=True))
 @click.option("--save", type=int, default=None)
-def main(save_dir: str, save: int | None) -> None:
+@click.option("--output", type=click.Path(exists=False), default=None)
+def main(save_dir: str, save: int | None, output: str | None) -> None:
     if not save:
         _save_dirs = glob.glob(os.path.join(save_dir, "savegame*"))
 
@@ -24,7 +24,11 @@ def main(save_dir: str, save: int | None) -> None:
     else:
         if not os.path.exists(_save_dir := os.path.join(save_dir, f"savegame{save}")):
             raise FileNotFoundError(f"No such file '{_save_dir}'")
-    print(farmsim22_api.data.get_data(_save_dir))
+    if not output:
+        output = f"{os.path.basename(_save_dir)}.json"
+
+    with open(output, "w") as out_f:
+        json.dump(farmsim22_api.data.get_data(_save_dir).model_dump(), out_f, indent=2)
 
 
 if __name__ in "__main__":
