@@ -4,16 +4,12 @@ import os.path
 import glob
 import re
 
-import farmsim22_api.vehicle_roster as fs22_vec
-import farmsim22_api.fields as fs22_field
-import farmsim22_api.farm as fs22_farm
+import farmsim22_api.data
 
-@click.group("farmsim")
+@click.command("farmsim")
 @click.argument("save_dir", type=click.Path(exists=True))
 @click.option("--save", type=int, default=None)
-@click.pass_context
-def main(ctx: typing.Dict, save_dir: str, save: int | None) -> None:
-    ctx.ensure_object(dict)
+def main(save_dir: str, save: int | None) -> None:
     if not save:
         _save_dirs = glob.glob(os.path.join(save_dir, "savegame*"))
 
@@ -28,26 +24,7 @@ def main(ctx: typing.Dict, save_dir: str, save: int | None) -> None:
     else:
         if not os.path.exists(_save_dir := os.path.join(save_dir, f"savegame{save}")):
             raise FileNotFoundError(f"No such file '{_save_dir}'")
-    ctx.obj["SAVE_DIR"] = _save_dir
-
-
-@main.command
-@click.pass_context
-def vehicles(ctx: typing.Dict) -> None:
-    _vehicles = fs22_vec.get_vehicles(ctx.obj["SAVE_DIR"])
-    print(_vehicles)
-
-@main.command
-@click.pass_context
-def fields(ctx: typing.Dict) -> None:
-    _fields = fs22_field.get_fields(ctx.obj["SAVE_DIR"])
-    print(_fields)
-
-@main.command
-@click.pass_context
-def farms(ctx: typing.Dict) -> None:
-    _farms = fs22_farm.get_farms(ctx.obj["SAVE_DIR"])
-    print(_farms)
+    print(farmsim22_api.data.get_data(_save_dir))
 
 
 if __name__ in "__main__":
